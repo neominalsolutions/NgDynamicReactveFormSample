@@ -1,0 +1,86 @@
+<!-- <p>dynamic-form works!</p> -->
+
+<!-- 
+<div [formGroup]="dynamicForm">
+  <input formControlName="gender" value="Erkek" type="radio"  > Erkek
+  <input formControlName="gender" value="Bayan" type="radio"    > Bayan
+
+  <button (click)="onSubmit()">asdsad</button>
+</div> -->
+
+
+<form *ngIf="dynamicForm" [formGroup]="dynamicForm" (ngSubmit)="onSubmit()">
+
+  <ng-container *ngFor="let control of dataSource let i=index">
+
+    <ng-container [ngSwitch]="control.type">
+    
+      <div *ngSwitchCase="'radio'">
+        <h3><span>({{i+1}}). Soru :</span> {{control.label}} - {{control.id}}</h3>
+        <p>
+          <span *ngFor="let option of control.options let i=index">
+      
+
+            <span>{{option}}</span>
+
+            <input type="radio" formControlName="{{control.id}}" [value]="option" [checked]="control.value == 'Evet' ? true:false"  >
+           
+          </span>
+        </p>
+      </div>
+
+      <div *ngSwitchCase="'checkbox'">
+        <h3><span>({{i+1}}). Soru :</span> {{control.label}} - {{control.id}}</h3>
+        <p>
+          <span *ngFor="let option of control.options let i=index">
+            <span>{{option}}</span>
+            <input formControlName="{{control.id}}" type="checkbox" [value]="control.value" [checked]="$any(control.value).includes(option) ? true:false"  >
+          </span>
+        </p>
+        
+       
+      </div>
+
+
+      <div *ngSwitchCase="'select'">
+        <h3><span>({{i+1}}). Soru :</span> {{control.label}} - {{control.id}}</h3>
+        <p>
+
+          <select formControlName="{{control.id}}" [multiple]="$any(control.value).length > 0 ? true:false">
+            <option [routerLinkActive]="option" [selected]="$any(control.value).includes(option) ? true:false" *ngFor="let option of control.options let i=index">{{option}}</option>
+          </select>
+         
+        </p>
+        
+       
+      </div>
+
+
+      <div *ngSwitchCase="'input'">
+        <h3><span>({{i+1}}). Soru :</span> {{control.label}} - {{control.id}}</h3>
+        <p>
+          <input type="text" formControlName="{{control.id}}" [value]="control.value">
+        </p>
+      </div>
+
+      <div *ngSwitchCase="'numeric'">
+        <h3><span>({{i+1}}). Soru :</span> {{control.label}} - {{control.id}}</h3>
+        <p>
+          <input type="number" formControlName="{{control.id}}" [value]="control.value">
+        </p>
+        
+       
+      </div>
+
+   
+
+    </ng-container>
+    
+  </ng-container>
+
+    <div>
+      <input type="submit" value="Gönder">
+    </div>
+</form>
+
+
