@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Question } from '../home/home.component';
 
 // UI Componentlerden httpclient ile veri çekme tavsiye edilen bir yöntem değil. Çünkü bu componentler kütüphane haline getirilip başka projelerde de kullanılmak istenebilir. // içerisine dışarıdan veri göndermek gerekir. @Input() dışarıdan componente veri göndeririz.
@@ -33,18 +33,50 @@ export class DynamicFormComponent implements OnInit {
 
   initForm(){
     for (const controlItem of this.dataSource) {
-        let formControl = this.fb.control([controlItem.value]);
 
-        if(controlItem.required){
-          formControl.addValidators(Validators.required);
-        }
+          
 
-        this.dynamicForm.addControl(controlItem.id.toString(),formControl)
+          let formControl = this.fb.control(controlItem.value);
+
+          if(controlItem.required){
+            formControl.addValidators(Validators.required);
+          }
+
+          this.dynamicForm.addControl(controlItem.id.toString(),formControl);
+      
     }
+  }
+
+  onRadioButtonChange(value:string,controlName:number){
+
+    this.dynamicForm.get(controlName.toString())?.setValue(value);
+  }
+
+  onCheckBoxChange(event:any,controlName:number){
+    console.log('onCheckBoxChange.event-target-value', event);
+
+    let selectedOptions = this.dynamicForm.get(controlName.toString())?.value as any[];
+
+   
+
+    if(event.target.checked && (selectedOptions.includes(event.target.value) == false)){
+      selectedOptions.push(event.target.value);
+
+      console.log('selectedOptions-add', selectedOptions);
+
+    } else {
+      selectedOptions = selectedOptions.filter(x=> x != event.target.value);
+
+      console.log('selectedOptions-remove', selectedOptions);
+    }
+
+    this.dynamicForm.get(controlName.toString())?.setValue(selectedOptions);
+
   }
 
   onSubmit(){
     console.log('form-value', this.dynamicForm.value);
   }
+
 
 }
