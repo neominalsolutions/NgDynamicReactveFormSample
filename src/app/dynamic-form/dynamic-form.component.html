@@ -1,14 +1,3 @@
-<!-- <p>dynamic-form works!</p> -->
-
-<!-- 
-<div [formGroup]="dynamicForm">
-    <input formControlName="checkbox" value="Spor" [checked]="dynamicForm.get('')" name="test" type="checkbox" /> Spor
-    <input formControlName="checkbox" name="test" type="checkbox" /> Yüzme
-
-
-  <button (click)="onSubmit()">asdsad</button>
-</div>  -->
-
 
 <form *ngIf="dynamicForm" [formGroup]="dynamicForm" (ngSubmit)="onSubmit()">
 
@@ -22,10 +11,14 @@
           <span *ngFor="let option of control.options let i=index">
       
 
-            <span>{{option}}</span>
+           
 
 
+            <!-- formcontrolName tanımı yapmadım. -->
+            <!-- [value] ve (change) eventlerini kullandım -->
             <input type="radio" name="{{control.id}}" [checked]="control.value == option ? true:false" [value]="option" (change)="onRadioButtonChange(option,control.id)">
+
+            <span>{{option}}</span>
            
           </span>
         </p>
@@ -37,10 +30,10 @@
           <span *ngFor="let option of control.options let i=index">
 
 
-
-            result: {{$any(control.value).includes(option) ? true:false}}
-            <span>{{option}}</span>
+          
             <input [value]="option" [checked]="$any(control.value).includes(option) ? true:false" (change)="onCheckBoxChange($event,control.id)" type="checkbox"  >
+
+            <span>{{option}}</span>
           </span>
         </p>
         

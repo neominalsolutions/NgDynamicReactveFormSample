@@ -31,7 +31,7 @@ export class HomePageComponent implements OnInit {
     {
       id: 134326,
       label: 'Hobileriniz Nelerdir',
-      value: ['Spor', 'Yüzme'],
+      value: ['Spor', 'Yüzme'], // veri tabanında ilk açılışta set edilen değerler, edit işleminde buranın bu şekilde dolu olması lazım
       type: 'checkbox',
       options: ['Spor', 'Yüzme', 'Fitness', 'Kayak'],
       required:true

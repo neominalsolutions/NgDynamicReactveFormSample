@@ -47,9 +47,11 @@ export class DynamicFormComponent implements OnInit {
     }
   }
 
-  onRadioButtonChange(value:string,controlName:number){
+  onRadioButtonChange(optionValue:string,controlName:number){
 
-    this.dynamicForm.get(controlName.toString())?.setValue(value);
+    console.log('onRadioButtonChange',optionValue,controlName)
+
+    this.dynamicForm.get(controlName.toString())?.setValue(optionValue);
   }
 
   onCheckBoxChange(event:any,controlName:number){
@@ -57,17 +59,22 @@ export class DynamicFormComponent implements OnInit {
 
     let selectedOptions = this.dynamicForm.get(controlName.toString())?.value as any[];
 
+    console.log('event.target.value', event.target.value);
+    console.log('event.target.checked', event.target.checked);
+
+  
+    console.log('selectedOptions-1', selectedOptions);
    
 
     if(event.target.checked && (selectedOptions.includes(event.target.value) == false)){
       selectedOptions.push(event.target.value);
 
-      console.log('selectedOptions-add', selectedOptions);
+      console.log('selectedOptions-affter-add', selectedOptions);
 
     } else {
       selectedOptions = selectedOptions.filter(x=> x != event.target.value);
 
-      console.log('selectedOptions-remove', selectedOptions);
+      console.log('selectedOptions-after-remove', selectedOptions);
     }
 
     this.dynamicForm.get(controlName.toString())?.setValue(selectedOptions);
